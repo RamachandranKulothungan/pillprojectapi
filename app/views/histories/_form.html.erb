@@ -1,0 +1,62 @@
+<%= form_with(model: history, local: true) do |form| %>
+  <% if history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(history.errors.count, "error") %> prohibited this history from being saved:</h2>
+
+      <ul>
+        <% history.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :illness %>
+    <%= form.text_field :illness %>
+  </div>
+
+  <div class="field">
+    <%= form.label :doctor %>
+    <%= form.text_field :doctor %>
+  </div>
+
+  <div class="field">
+    <%= form.label :medicines %>
+    <%= form.text_field :medicines %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.date_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.date_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dosage_amount %>
+    <%= form.number_field :dosage_amount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dosage_frequency %>
+    <%= form.number_field :dosage_frequency %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dosage_time %>
+    <%= form.time_select :dosage_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notification %>
+    <%= form.check_box :notification %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

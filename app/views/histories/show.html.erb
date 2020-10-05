@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Illness:</strong>
+  <%= @history.illness %>
+</p>
+
+<p>
+  <strong>Doctor:</strong>
+  <%= @history.doctor %>
+</p>
+
+<p>
+  <strong>Medicines:</strong>
+  <%= @history.medicines %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @history.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @history.end_date %>
+</p>
+
+<p>
+  <strong>Dosage amount:</strong>
+  <%= @history.dosage_amount %>
+</p>
+
+<p>
+  <strong>Dosage frequency:</strong>
+  <%= @history.dosage_frequency %>
+</p>
+
+<p>
+  <strong>Dosage time:</strong>
+  <%= @history.dosage_time %>
+</p>
+
+<p>
+  <strong>Notification:</strong>
+  <%= @history.notification %>
+</p>
+
+<%= link_to 'Edit', edit_history_path(@history) %> |
+<%= link_to 'Back', histories_path %>
