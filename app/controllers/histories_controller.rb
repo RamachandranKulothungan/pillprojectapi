@@ -101,7 +101,8 @@ class HistoriesController < ApplicationController
     @history.destroy
     respond_to do |format|
       format.html { redirect_to histories_url, notice: 'History was successfully destroyed.' }
-      format.json { head :no_content }
+      format.json {render json: {'record': "Deleted"},
+                    status: :ok}
     end
   end
 

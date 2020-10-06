@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :validate_user!, except: [:create,:new, :show]
+  before_action :validate_user!, except: [:create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -57,6 +57,20 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        ActiveStorage::Current.host = "http://localhost:4000"
+        attachment_blob = ActiveStorage::Attachment.find_by(record_type: "User", record_id: @user.id)
+        @direct_url=""
+        if attachment_blob
+          attachment_blob=attachment_blob.blob
+          @direct_url = ActiveStorage::Blob.service.url(
+            attachment_blob.key,
+            expires_in: 20000,
+            disposition: "attachment",
+            filename: attachment_blob.filename,
+            content_type: attachment_blob.content_type
+          )
+        end
+
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else

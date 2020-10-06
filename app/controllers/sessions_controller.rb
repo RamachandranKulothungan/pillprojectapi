@@ -13,16 +13,20 @@ class SessionsController < ApplicationController
   def update_password
      user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
-      user.password_digest = BCrypt::Password.create(params[:new_password])
-      user.save 
-      # redirect_to root_url, notice: "Logged in!"
-      render json: user.as_json(only: [:email,:id])
-                      .merge("token": user.generate_jwt)
+      if params[:password] != params[:new_password]
+        user.password_digest = BCrypt::Password.create(params[:new_password])
+        user.save 
+        # redirect_to root_url, notice: "Logged in!"
+        render json: user.as_json(only: [:email,:id])
+                        .merge("token": user.generate_jwt)
+      else
+        render json: { errors: "New password same as old password"}, status: :ok  
+      end
 
     else
       # flash.now[:alert] = "Email or password is invalid"
       # render "new"
-      render json: { errors: {'password': ["password is invalid"]}}, status: :unprocessable_entity
+      render json: { errors: "Invalid Password"}, status: :ok
     end
   end
 
@@ -37,7 +41,7 @@ class SessionsController < ApplicationController
     else
       #flash.now[:alert] = "Email or password is invalid"
       #render "new"
-      render json: { errors: {'email or password': ["is invalid"]}},
+      render json: { errors: "Email or Password is invalid"},
                     status: :unprocessable_entity
     end
   end
