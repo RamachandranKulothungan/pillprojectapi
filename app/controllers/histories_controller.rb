@@ -39,8 +39,28 @@ class HistoriesController < ApplicationController
     #   .order(:startdate, :asc) 
     # end
     @histories = History.where(user_id: user_id)
-          .order(:startdate, :asc)
+          .order(:start_date, :asc)
           
+    render json: @histories
+  end
+
+  #GET "histories/user/:user_id/current"
+  def get_for_user_current
+    user_id = params[:user_id]
+
+    # for today
+    @histories = History
+           .where(user_id: user_id)
+           .where("? BETWEEN start_date AND end_date", DateTime.now.to_date)
+           .order(:start_date, :asc)
+
+    # if no records for today, then get for tomorrow
+    if @histories.size == 0 
+      @histories = History
+      .where(user_id: user_id)
+      .where("? BETWEEN start_date AND end_date",  DateTime.now.next_day.to_date)
+      .order(:start_date, :asc) 
+    end 
     render json: @histories
   end
 

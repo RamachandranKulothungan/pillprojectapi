@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :validate_user!, except: [:create]
+  before_action :validate_user!, except: [:create,:new, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-     ActiveStorage::Current.host = "http://localhost:3000"
+     ActiveStorage::Current.host = "http://localhost:4000"
     @direct_url = "";
     attachment = ActiveStorage::Attachment.find_by(record_type: "User", record_id: @user.id)
     if(attachment)
@@ -24,8 +24,8 @@ class UsersController < ApplicationController
           content_type: attachment_blob.content_type
         )
     end
-    
   end
+
 
   # GET /users/new
   def new
@@ -84,6 +84,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email, :contact, :country, :dob, :password, :password_confirmation, :blood_group, :height, :weight, :profile_image)
+      params.require(:user).permit(:name, :email, :contact, :country, :dob, :password, :password_confirmation, :blood_group, :height, :weight, :profile_image, :new_password)
     end
 end
