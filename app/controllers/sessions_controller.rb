@@ -20,13 +20,13 @@ class SessionsController < ApplicationController
         render json: user.as_json(only: [:email,:id])
                         .merge("token": user.generate_jwt)
       else
-        render json: { errors: "New password same as old password"}, status: :ok  
+        render json: { errors: "New password same as old password"}, status: :unprocessable_entity  
       end
 
     else
       # flash.now[:alert] = "Email or password is invalid"
       # render "new"
-      render json: { errors: "Invalid Password"}, status: :ok
+      render json: { errors: "Invalid Password"}, status: :unprocessable_entity
     end
   end
 
